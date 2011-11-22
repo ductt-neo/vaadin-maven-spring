@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="VaadinMavenSpring:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="VaadinMavenSpring.war">
+      <element id="artifact" artifact-name="VaadinMavenSpring:war exploded" />
+    </root>
+  </artifact>
+</component>
