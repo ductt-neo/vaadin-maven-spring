@@ -4,6 +4,7 @@ package com.bpc.ui;
 import com.bpc.model.ScoringRule;
 import com.bpc.model.User;
 import com.bpc.utils.ClassFieldNameUtils;
+import com.bpc.utils.FieldNameUtils;
 import com.bpc.utils.ScoringRuleController;
 import com.bpc.utils.UserController;
 import com.vaadin.data.Property;
@@ -28,9 +29,10 @@ public class ScoringRuleTable extends VerticalLayout implements Button.ClickList
     private Table table;
     private TabSheetScoringRule tabSheetScoringRule;
 
-    public ScoringRuleTable() {
+    public ScoringRuleTable(TabSheetScoringRule tabSheetScoringRule) {
+        setTabSheetScoringRule(tabSheetScoringRule);
         table = new Table("Scoring Rules Table");
-        Button button = new Button("Loading User");
+        Button button = new Button("Loading Scoring Rules");
         addComponent(button);
         addComponent(table);
 
@@ -55,12 +57,16 @@ public class ScoringRuleTable extends VerticalLayout implements Button.ClickList
                     selected.setValue("No selection");
                 } else {
                     selected.setValue("Selected: " + scoringRule.toString());
-                    addComponent(tabSheetScoringRule);
-                    tabSheetScoringRule.getRuleCaseTable().
+                    addComponent(getTabSheetScoringRule());
+                    getTabSheetScoringRule().getRuleCaseTable().
                             setTableDataSources(scoringRuleController.getRuleCaseBeanItemContainer(scoringRule));
+                    getTabSheetScoringRule().getMappingRuleTable().
+                            setTableDataSources(scoringRuleController.getMappingRuleBeanItemContainer(scoringRule));
                 }
             }
         });
+
+        addComponent(this.tabSheetScoringRule);
 
     }
 
@@ -83,7 +89,7 @@ public class ScoringRuleTable extends VerticalLayout implements Button.ClickList
         // turn on column reordering and collapsing
         table.setColumnReorderingAllowed(true);
         table.setColumnCollapsingAllowed(true);
-        String[] columns = ClassFieldNameUtils.getFieldNames(ScoringRule.class);
+        String[] columns = FieldNameUtils.scoringRuleFieldName;
         table.setVisibleColumns(columns);
         table.setColumnHeaders(columns);
 
@@ -101,5 +107,9 @@ public class ScoringRuleTable extends VerticalLayout implements Button.ClickList
 
     public void setTabSheetScoringRule(TabSheetScoringRule tabSheetScoringRule) {
         this.tabSheetScoringRule = tabSheetScoringRule;
+    }
+
+    public TabSheetScoringRule getTabSheetScoringRule() {
+        return tabSheetScoringRule;
     }
 }
