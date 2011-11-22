@@ -1,5 +1,6 @@
 package com.bpc.utils;
 
+import com.bpc.model.MappingRule;
 import com.bpc.model.ScoringRule;
 
 import com.bpc.model.ScoringRuleCase;
@@ -17,19 +18,7 @@ import java.util.List;
  */
 public class ScoringRuleController {
 
-    public static final Object SCORING_RULE_PROPERTIES_ID = "id";
-    public static final Object SCORING_RULE_PROPERTIES_WEIGHT = "weight";
-    public static final Object SCORING_RULE_PROPERTIES_SCHEME = "scheme";
-    public static final Object SCORING_RULE_PROPERTIES_FACTOR = "factor";
-    public static final Object SCORING_RULE_PROPERTIES_REQUIRED = "required";
-
-    public static String[] ruleCaseFieldName = null;
-
     private ScoringRuleServices scoringRuleServices;
-
-    static {
-        ruleCaseFieldName = ClassFieldNameUtils.getFieldNames(ScoringRuleCase.class);
-    }
 
     public void setScoringRuleServices(ScoringRuleServices scoringRuleServices) {
         this.scoringRuleServices = scoringRuleServices;
@@ -39,7 +28,7 @@ public class ScoringRuleController {
         List<ScoringRule> scoringRuleList = this.scoringRuleServices.getAll();
         BeanItemContainer<ScoringRule> beanItemContainer =
                 new BeanItemContainer<ScoringRule>(ScoringRule.class, scoringRuleList);
-        beanItemContainer.sort(new Object[]{SCORING_RULE_PROPERTIES_ID}, new boolean[]{true});
+        beanItemContainer.sort(new Object[]{FieldNameUtils.scoringRuleFieldName}, new boolean[]{true});
         return beanItemContainer;
     }
 
@@ -47,7 +36,15 @@ public class ScoringRuleController {
         List<ScoringRuleCase> ruleCaseList = this.scoringRuleServices.getRuleCaseList(scoringRule);
         BeanItemContainer<ScoringRuleCase> beanItemContainer =
                 new BeanItemContainer<ScoringRuleCase>(ScoringRuleCase.class, ruleCaseList);
-        beanItemContainer.sort(ruleCaseFieldName,new boolean[]{true});
+        beanItemContainer.sort(FieldNameUtils.ruleCaseFieldName,new boolean[]{true});
+        return beanItemContainer;
+    }
+
+    public BeanItemContainer<MappingRule> getMappingRuleBeanItemContainer(ScoringRule scoringRule){
+        List<MappingRule> mappingRuleList = this.scoringRuleServices.getMappingRuleList(scoringRule);
+        BeanItemContainer<MappingRule> beanItemContainer =
+                new BeanItemContainer<MappingRule>(MappingRule.class, mappingRuleList);
+        beanItemContainer.sort(FieldNameUtils.mappingRuleFieldName,new boolean[]{true});
         return beanItemContainer;
     }
 }
