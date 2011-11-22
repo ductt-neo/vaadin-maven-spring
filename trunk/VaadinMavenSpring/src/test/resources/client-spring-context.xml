@@ -21,14 +21,12 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <import resource="vaadin-ui.xml"/>
+    <bean id="client" class="com.bpc.services.CalculateWebServices"
+      factory-bean="clientFactory" factory-method="create"/>
 
-    <bean id="springHelloWorld" class="com.bpc.example.SpringHelloWorld" scope="request">
-        <property name="scoringRuleTable" ref="scoringRuleTable"/>
-        <property name="calcdWin" ref="calcWindow"/>
-    </bean>
-
-
-
+	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+	  <property name="serviceClass" value="com.bpc.services.CalculateWebServices"/>
+	  <property name="address" value="http://bpc-vn17/VaadinMavenSpring/ws/calculateService"/>
+	</bean>
 
 </beans>
