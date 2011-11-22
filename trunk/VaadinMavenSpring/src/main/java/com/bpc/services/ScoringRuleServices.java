@@ -1,5 +1,6 @@
 package com.bpc.services;
 
+import com.bpc.model.MappingRule;
 import com.bpc.model.ScoringRule;
 import com.bpc.model.ScoringRuleCase;
 
@@ -15,5 +16,6 @@ import java.util.List;
 public interface ScoringRuleServices {
     public List<ScoringRule> getAll();
     public List<ScoringRuleCase> getRuleCaseList(ScoringRule scoringRule);
+    public List<MappingRule>  getMappingRuleList(ScoringRule scoringRule);
 
 }
