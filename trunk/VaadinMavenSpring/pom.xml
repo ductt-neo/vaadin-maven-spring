@@ -14,7 +14,19 @@
             <id>jboss</id>
             <url>http://repository.jboss.org/maven2/</url>
         </repository>
+        <repository>
+          <id>apache-snapshots</id>
+          <name>Apache SNAPSHOT Repository</name>
+          <url>http://repository.apache.org/snapshots/</url>
+          <snapshots>
+             <enabled>true</enabled>
+          </snapshots>
+       </repository>
     </repositories>
+
+    <properties>
+        <cxf.version>2.2.3</cxf.version>
+    </properties>
 
     <dependencies>
 
@@ -41,7 +53,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.9</version>
             <scope>test</scope>
         </dependency>
 
@@ -175,12 +187,30 @@
             <version>3.2.0.Final</version>
         </dependency>
 
-        <!-- Postgress SQL driver-->
+        <!-- CXF Dependencies-->
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+            <!-- Jetty is needed if you're are not using the CXFServlet -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <!-- Postgress SQL driver-->
+        <!--<dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.0-801.jdbc4</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Log4j -->
         <dependency>
@@ -201,7 +231,7 @@
                 <configuration>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8080</port>
+                            <port>80</port>
                         </connector>
                     </connectors>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
