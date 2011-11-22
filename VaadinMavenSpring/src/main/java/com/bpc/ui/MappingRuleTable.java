@@ -1,9 +1,8 @@
 package com.bpc.ui;
 
 
-import com.bpc.model.ScoringRule;
+import com.bpc.model.MappingRule;
 import com.bpc.model.ScoringRuleCase;
-import com.bpc.utils.ClassFieldNameUtils;
 import com.bpc.utils.FieldNameUtils;
 import com.bpc.utils.ScoringRuleController;
 import com.vaadin.data.Property;
@@ -17,26 +16,23 @@ import java.util.ArrayList;
 /**
  * Created by IntelliJ IDEA.
  * User: do_th
- * Date: 11/21/11
- * Time: 4:15 PM
+ * Date: 11/22/11
+ * Time: 3:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RuleCaseTable extends VerticalLayout {
-
+public class MappingRuleTable extends VerticalLayout {
     private ScoringRuleController scoringRuleController;
     private Table table;
 
-    public RuleCaseTable() {
+    public MappingRuleTable() {
         table = new Table("");
         table.setContainerDataSource(
-                new BeanItemContainer<ScoringRuleCase>(ScoringRuleCase.class, new ArrayList<ScoringRuleCase>()));
+                new BeanItemContainer<MappingRule>(MappingRule.class, new ArrayList<MappingRule>()));
         // set column headers
         setTableStyte();
         addComponent(table);
         final Label selected = new Label("No selection");
         addComponent(selected);
-
-
         table.addListener(new Table.ValueChangeListener() {
             public void valueChange
                     (Property.ValueChangeEvent
@@ -44,17 +40,16 @@ public class RuleCaseTable extends VerticalLayout {
                 // in multiselect mode, a Set of itemIds is returned,
                 // in singleselect mode the itemId is returned directly
                 //Set<?> value = (Set<?>) event.getProperty().getValue();
-                ScoringRuleCase scoringRuleCase = (ScoringRuleCase) event.getProperty().getValue();
+                MappingRule mappingRule = (MappingRule) event.getProperty().getValue();
                 // if (null == user || value.size() == 0) {
-                if (null == scoringRuleCase) {
+                if (null == mappingRule) {
                     selected.setValue("No selection");
                 } else {
-                    selected.setValue("Selected: " + scoringRuleCase.toString());
+                    selected.setValue("Selected: " + mappingRule.toString());
                 }
             }
         });
     }
-
 
     private void setTableStyte() {
         // size
@@ -70,7 +65,7 @@ public class RuleCaseTable extends VerticalLayout {
         table.setColumnReorderingAllowed(true);
         table.setColumnCollapsingAllowed(true);
 
-        String[] columns = FieldNameUtils.ruleCaseFieldName;
+        String[] columns = FieldNameUtils.mappingRuleFieldName;
         table.setVisibleColumns(columns);
         table.setColumnHeaders(columns);
 
@@ -80,13 +75,12 @@ public class RuleCaseTable extends VerticalLayout {
         }
     }
 
-    public void setTableDataSources(BeanItemContainer<ScoringRuleCase> tableDataSources) {
+    public void setScoringRuleController(ScoringRuleController scoringRuleController) {
+        this.scoringRuleController = scoringRuleController;
+    }
+     public void setTableDataSources(BeanItemContainer<MappingRule> tableDataSources) {
         this.table.setContainerDataSource(tableDataSources);
         setTableStyte();
 
-    }
-
-    public void setScoringRuleController(ScoringRuleController scoringRuleController) {
-        this.scoringRuleController = scoringRuleController;
     }
 }

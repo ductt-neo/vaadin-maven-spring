@@ -17,32 +17,28 @@ public class TabSheetScoringRule extends VerticalLayout {
 
     private ScoringRuleController scoringRuleController;
     private RuleCaseTable ruleCaseTable;
+    private MappingRuleTable mappingRuleTable;
     private TabSheet t;
 
     public void setScoringRuleController(ScoringRuleController scoringRuleController) {
         this.scoringRuleController = scoringRuleController;
     }
 
-    public TabSheetScoringRule(RuleCaseTable ruleCaseTable) {
+    public TabSheetScoringRule(RuleCaseTable ruleCaseTable, MappingRuleTable mappingRuleTable) {
         // Tab 1 content
-        this.ruleCaseTable =  ruleCaseTable;
-        this.ruleCaseTable.setMargin(true);
-
-        // Tab 2 content
-        VerticalLayout l2 = new VerticalLayout();
-        l2.setMargin(true);
-        l2.addComponent(new Label("There are mapping cases."));
-        // Tab 3 content
-
+        this.ruleCaseTable = ruleCaseTable;
+        this.mappingRuleTable = mappingRuleTable;
+        //this.ruleCaseTable.setMargin(true);
 
         t = new TabSheet();
-        t.setHeight("250px");
+        t.setHeight("260px");
         t.setWidth("100%");
 
         t.addTab(this.ruleCaseTable, "Rule Cases");
-        t.addTab(l2, "Mapping Rules");
-       // t.addTab(l3, "Issues");
+        t.addTab(this.mappingRuleTable, "Mapping Rules");
+
         t.addComponent(this.ruleCaseTable);
+        t.addComponent(this.mappingRuleTable);
         addComponent(t);
     }
 
@@ -52,5 +48,13 @@ public class TabSheetScoringRule extends VerticalLayout {
 
     public RuleCaseTable getRuleCaseTable() {
         return ruleCaseTable;
+    }
+
+    public MappingRuleTable getMappingRuleTable() {
+        return mappingRuleTable;
+    }
+
+    public void setMappingRuleTable(MappingRuleTable mappingRuleTable) {
+        this.mappingRuleTable = mappingRuleTable;
     }
 }
