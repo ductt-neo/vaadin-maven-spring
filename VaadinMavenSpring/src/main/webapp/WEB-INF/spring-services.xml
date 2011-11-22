@@ -29,5 +29,6 @@
     <bean id="scoringRuleServices" class="com.bpc.services.ScoringRuleServicesImpl">
         <property name="scoringRuleDao" ref="scoringRuleDao"/>
         <property name="scoringRuleCaseDao" ref="scoringRuleCaseDao"/>
+        <property name="mappingRuleDao" ref="mappingRuleDao"/>
     </bean>
 </beans>
