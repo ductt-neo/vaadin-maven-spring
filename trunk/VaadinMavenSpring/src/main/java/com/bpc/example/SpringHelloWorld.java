@@ -28,6 +28,7 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
     private ScoringRuleTable scoringRuleTable;
 
 
+
     //@Override
     public void init() {
         SpringContextHelper.getInstance(this);
