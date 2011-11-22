@@ -95,7 +95,7 @@ public class MappingScheme implements EntityBean {
     public void setCode(String code) {
         this.code = code;
     }
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mappingScheme", fetch = FetchType.LAZY)
+    @Transient
     public List<ScoreCalculation> getScoreCalculationList() {
         return scoreCalculationList;
     }
@@ -104,7 +104,7 @@ public class MappingScheme implements EntityBean {
         this.scoreCalculationList = scoreCalculationList;
     }
     @JoinColumn(name = "SCORING_SCHEME_ID", referencedColumnName = "SCHEME_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     public ScoringScheme getScoringScheme() {
         return scoringScheme;
     }
@@ -113,7 +113,7 @@ public class MappingScheme implements EntityBean {
         this.scoringScheme = scoringScheme;
     }
     @JoinColumn(name = "APP_SPEC_ID", referencedColumnName = "APP_SPEC_ID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     public ApplicationSpecification getApplicationSpecification() {
         return applicationSpecification;
     }
