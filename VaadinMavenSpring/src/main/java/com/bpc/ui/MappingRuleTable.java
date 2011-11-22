@@ -81,6 +81,5 @@ public class MappingRuleTable extends VerticalLayout {
      public void setTableDataSources(BeanItemContainer<MappingRule> tableDataSources) {
         this.table.setContainerDataSource(tableDataSources);
         setTableStyte();
-
     }
 }
