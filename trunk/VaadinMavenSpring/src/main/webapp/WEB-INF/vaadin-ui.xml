@@ -30,18 +30,22 @@
         <property name="calculateServices" ref="calculateServices"/>
     </bean>
 
-    <bean id="scoringRuleTable"  class="com.bpc.ui.ScoringRuleTable" scope="request">
+    <bean id="scoringRuleTable" class="com.bpc.ui.ScoringRuleTable" scope="request">
+        <constructor-arg index="0" ref="tabSheetScoringRule"  />
         <property name="scoringRuleController" ref="scoringRuleController"/>
-        <property name="tabSheetScoringRule" ref="tabSheetScoringRule"/>
+
     </bean>
     <bean id="ruleCaseTable" class="com.bpc.ui.RuleCaseTable" scope="request">
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
-     <bean id="tabSheetScoringRule"  class="com.bpc.ui.TabSheetScoringRule" scope="request">
-        <constructor-arg ref="ruleCaseTable"/>
+    <bean id="mappingRuleTable" class="com.bpc.ui.MappingRuleTable" scope="request">
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
-
+    <bean id="tabSheetScoringRule" class="com.bpc.ui.TabSheetScoringRule" scope="request">
+        <constructor-arg index="0" ref="ruleCaseTable" />
+        <constructor-arg index="1" ref="mappingRuleTable"/>
+        <property name="scoringRuleController" ref="scoringRuleController"/>
+    </bean>
 
 
 </beans>
