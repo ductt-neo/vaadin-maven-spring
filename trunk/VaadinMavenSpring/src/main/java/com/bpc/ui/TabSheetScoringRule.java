@@ -24,12 +24,10 @@ public class TabSheetScoringRule extends VerticalLayout {
         this.scoringRuleController = scoringRuleController;
     }
 
-    public TabSheetScoringRule(RuleCaseTable ruleCaseTable, MappingRuleTable mappingRuleTable) {
-        // Tab 1 content
-        this.ruleCaseTable = ruleCaseTable;
-        this.mappingRuleTable = mappingRuleTable;
-        //this.ruleCaseTable.setMargin(true);
+    public TabSheetScoringRule() {
+    }
 
+    public void init() {
         t = new TabSheet();
         t.setHeight("260px");
         t.setWidth("100%");
@@ -37,8 +35,8 @@ public class TabSheetScoringRule extends VerticalLayout {
         t.addTab(this.ruleCaseTable, "Rule Cases");
         t.addTab(this.mappingRuleTable, "Mapping Rules");
 
-        t.addComponent(this.ruleCaseTable);
-        t.addComponent(this.mappingRuleTable);
+        //t.addComponent(this.ruleCaseTable);
+        //t.addComponent(this.mappingRuleTable);
         addComponent(t);
     }
 
