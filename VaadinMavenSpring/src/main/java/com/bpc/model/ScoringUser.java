@@ -1,6 +1,7 @@
 package com.bpc.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,13 +15,16 @@ import javax.persistence.*;
 public class ScoringUser implements EntityBean{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="USERNAME")
     private String userName;
     @Column(name="PASSWORD")
     private String password;
     @Column(name="ENABLED")
     private String enabled;
+
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinColumn(name="USERNAME",referencedColumnName = "USERNAME")
+    private List<ScoringUserAuthority> authorities;
 
     public ScoringUser(){}
 
@@ -50,6 +54,14 @@ public class ScoringUser implements EntityBean{
 
     public void setEnabled(String enabled) {
         this.enabled = enabled;
+    }
+
+    public List<ScoringUserAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<ScoringUserAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Transient

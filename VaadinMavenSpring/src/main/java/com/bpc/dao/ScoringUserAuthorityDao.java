@@ -1,8 +1,7 @@
 package com.bpc.dao;
 
-import com.bpc.model.ScoringRule;
-import com.bpc.model.ScoringRuleCase;
 import com.bpc.model.ScoringUser;
+import com.bpc.model.ScoringUserAuthority;
 
 import java.util.List;
 
@@ -13,7 +12,6 @@ import java.util.List;
  * Time: 2:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface ScoringUserDao extends AbstractDAO<ScoringUser,String>{
-    public List<ScoringUser> getAllUsers();
-    public ScoringUser getUserByName(String userName);
+public interface ScoringUserAuthorityDao extends AbstractDAO<ScoringUserAuthority,String>{
+    public List<ScoringUserAuthority> getAllUserAuthorities();
 }

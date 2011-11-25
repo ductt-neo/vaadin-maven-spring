@@ -20,18 +20,49 @@
           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-    <import resource="spring-dao.xml"></import>
-    <context:component-scan base-package="com.bpc.services"/>
+
+    <import resource="spring-dao.xml"/>
+    <context:component-scan base-package="com.bpc"/>
     <context:annotation-config/>
 
-    <bean id="userServices" class="com.bpc.services.UserServicesImpl">
-        <property name="feUserDao" ref="feUserDao"/>
-    </bean>
-    <bean id="calculateServices" class="com.bpc.services.CalculateServicesImpl"/>
+    <bean id="businessObject" class="org.springframework.aop.framework.ProxyFactoryBean">
+         <property name="target"><ref bean="scoringUserAuthorityService"/></property>
+         <property name="proxyInterfaces">
+           <value>com.bpc.services.ScoringUserAuthorityServices</value>
+         </property>
+         <property name="interceptorNames">
+           <list>
+              <value>hibernateInterceptor</value>
+           </list>
+         </property>
+     </bean>
 
-    <bean id="scoringRuleServices" class="com.bpc.services.ScoringRuleServicesImpl">
-        <property name="scoringRuleDao" ref="scoringRuleDao"/>
-        <property name="scoringRuleCaseDao" ref="scoringRuleCaseDao"/>
-        <property name="mappingRuleDao" ref="mappingRuleDao"/>
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory" />
+        </property>
     </bean>
+    <tx:annotation-driven />
+    <bean id="userAuthorityService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+            lazy-init="true">
+        <property name="transactionManager">
+            <ref local="transactionManager"/>
+        </property>
+        <property name="target">
+            <ref bean="scoringUserAuthorityService"/>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="save*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <!--<bean id="myTransactionManager" class="org.springframework.orm.hibernate.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="mySessionFactory"/>
+        </property>
+    </bean>
+    -->
 </beans>
