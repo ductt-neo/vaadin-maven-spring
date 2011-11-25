@@ -22,11 +22,12 @@
         <intercept-url pattern="/**" access="ROLE_USER" />
         <form-login login-page="/login" authentication-failure-url="/login_error"/>
         <logout logout-url="/logout" />-->
+        <security:logout success-handler-ref="logoutSuccessHandler" invalidate-session="true" />
 	</security:http>
  
     <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 
-    <bean id="daoAuthenticationProvider" class="com.bpc.services.ScoringUserAuthenticationServicesImpl">
+    <bean id="daoAuthenticationProvider" class="com.bpc.security.ScoringUserAuthenticationProvider">
       <property name="userDetailsService" ref="scoringUserAuthorityService"/>
       <property name="passwordEncoder" ref="passwordEncoder"/>
     </bean>

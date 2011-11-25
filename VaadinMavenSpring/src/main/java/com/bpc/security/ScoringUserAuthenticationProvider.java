@@ -1,4 +1,4 @@
-package com.bpc.services;
+package com.bpc.security;
 
 import com.bpc.dao.ScoringUserAuthorityDao;
 import com.bpc.dao.ScoringUserDao;
@@ -34,7 +34,7 @@ import java.util.Map;
  * Time: 4:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ScoringUserAuthenticationServicesImpl extends DaoAuthenticationProvider {
+public class ScoringUserAuthenticationProvider extends DaoAuthenticationProvider {
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String principal = (String) authentication.getPrincipal();
