@@ -7,6 +7,7 @@ package com.bpc.example;
 import com.bpc.ui.*;
 import com.bpc.utils.SpringContextHelper;
 import com.vaadin.event.Action;
+import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
@@ -16,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 
@@ -75,6 +78,8 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
         btnLogout.addListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent clickEvent) {
                 SecurityContextHolder.getContext().setAuthentication(null);
+                /*((WebApplicationContext)(getMainWindow().getApplication().getContext())).getHttpSession().invalidate();*/
+                getMainWindow().getApplication().close();
                 authenticateUser();
             }
         });

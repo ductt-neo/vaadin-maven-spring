@@ -13,7 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 //@Service
 public class CalculateServicesImpl implements CalculateServices {
 
-    @Secured("ROLE_ADMIN")
+    @Secured("ROLE_USER")
     public Double addCalc(double a, double b) {
         return a + b;
     }
