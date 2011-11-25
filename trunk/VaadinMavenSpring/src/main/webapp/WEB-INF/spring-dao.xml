@@ -24,16 +24,19 @@
     <bean id="feUserDao" class="com.bpc.dao.FEUserDaoImpl">
         <property name="dataSource" ref="dataSource"></property>
     </bean>
-
-
     <bean id="scoringRuleDao" class="com.bpc.dao.ScoringRuleDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
     <bean id="scoringRuleCaseDao" class="com.bpc.dao.ScoringRuleCaseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <bean id="mappingRuleDao" class="com.bpc.dao.MappingRuleDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="scoringUserDao" class="com.bpc.dao.ScoringUserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="scoringUserAuthorityDao" class="com.bpc.dao.ScoringUserAuthorityDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

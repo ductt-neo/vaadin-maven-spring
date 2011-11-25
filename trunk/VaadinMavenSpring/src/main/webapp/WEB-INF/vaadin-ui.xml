@@ -29,11 +29,9 @@
         <constructor-arg name="caption" value="Calculation Window"/>
         <property name="calculateServices" ref="calculateServices"/>
     </bean>
-
     <bean id="scoringRuleTable" class="com.bpc.ui.ScoringRuleTable" scope="request">
         <constructor-arg index="0" ref="tabSheetScoringRule"  />
         <property name="scoringRuleController" ref="scoringRuleController"/>
-
     </bean>
     <bean id="ruleCaseTable" class="com.bpc.ui.RuleCaseTable" scope="request">
         <property name="scoringRuleController" ref="scoringRuleController"/>
@@ -46,6 +44,9 @@
         <constructor-arg index="1" ref="mappingRuleTable"/>
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
-
+    <bean id="loginWindow" class="com.bpc.ui.LoginWindow" lazy-init="true" scope="request">
+        <constructor-arg name="caption" value="Login Window"/>
+        <!--<property name="calculateServices" ref="calculateServices"/>-->
+    </bean>
 
 </beans>

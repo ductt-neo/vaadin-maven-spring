@@ -26,6 +26,7 @@
 
     <properties>
         <cxf.version>2.2.3</cxf.version>
+        <spring.version>3.0.3.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -204,6 +205,23 @@
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+
+        <!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
         <!-- Postgress SQL driver-->
         <!--<dependency>
