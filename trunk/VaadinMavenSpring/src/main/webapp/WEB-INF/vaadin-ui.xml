@@ -39,8 +39,11 @@
     <bean id="mappingRuleTable" class="com.bpc.ui.MappingRuleTable" scope="request">
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
-    <bean id="tabSheetScoringRule" class="com.bpc.ui.TabSheetScoringRule" scope="request">
+
+    <bean id="tabSheetScoringRule" class="com.bpc.ui.TabSheetScoringRule" scope="request" init-method="init">
         <property name="scoringRuleController" ref="scoringRuleController"/>
+        <property name="mappingRuleTable" ref="mappingRuleTable"/>
+        <property name="ruleCaseTable" ref="ruleCaseTable"/>
     </bean>
     <bean id="loginWindow" class="com.bpc.ui.LoginWindow" lazy-init="true" scope="request">
         <constructor-arg name="caption" value="Login Window"/>
