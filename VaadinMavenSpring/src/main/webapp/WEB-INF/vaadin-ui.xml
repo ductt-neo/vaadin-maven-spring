@@ -40,8 +40,6 @@
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
     <bean id="tabSheetScoringRule" class="com.bpc.ui.TabSheetScoringRule" scope="request">
-        <constructor-arg index="0" ref="ruleCaseTable" />
-        <constructor-arg index="1" ref="mappingRuleTable"/>
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
     <bean id="loginWindow" class="com.bpc.ui.LoginWindow" lazy-init="true" scope="request">
