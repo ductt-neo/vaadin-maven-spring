@@ -13,22 +13,21 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 
 /**
- *
  * @author do_th
  */
 //@Configurable(preConstruction = true)
 public class SpringHelloWorld extends com.vaadin.Application implements Button.ClickListener {
-
+    private static final Logger logger = Logger.getLogger(SpringHelloWorld.class);
     //@Autowired
     //private CalculateServices bean;
     private CalcWindow calcdWin;
@@ -38,21 +37,24 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
 
     //@Override
     public void init() {
-         authenticateUser();
+        authenticateUser();
     }
 
-    public void authenticateUser(){
+    public void authenticateUser() {
         SpringContextHelper.getInstance(this);
-        if(authorized("ROLE_USER")){
-			initAuthorizedUser();
-		} else {
-			initUnauthorizedUser();
-		}
+        setTheme("contacts");
+        if (authorized("ROLE_USER")) {
+            initAuthorizedUser();
+        } else {
+            initUnauthorizedUser();
+        }
     }
 
-    public void initUnauthorizedUser(){
-        if(mainWindow!=null && this.getWindows().contains(mainWindow))
+    public void initUnauthorizedUser() {
+        if (mainWindow != null && this.getWindows().contains(mainWindow)) {
             removeWindow(mainWindow);
+            mainWindow = null;
+        }
 
         loginWindow = new LoginWindow("LoginWindow");
         setMainWindow(loginWindow);
@@ -64,8 +66,8 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
         };
     }
 
-    public void initAuthorizedUser(){
-        if(loginWindow!=null && this.getWindows().contains(loginWindow))
+    public void initAuthorizedUser() {
+        if (loginWindow != null && this.getWindows().contains(loginWindow))
             removeWindow(loginWindow);
 
         mainWindow = new Window("MyApplication");
@@ -78,7 +80,9 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
         btnLogout.addListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent clickEvent) {
                 SecurityContextHolder.getContext().setAuthentication(null);
-                /*((WebApplicationContext)(getMainWindow().getApplication().getContext())).getHttpSession().invalidate();*/
+                WebApplicationContext webCtx = (WebApplicationContext)  getMainWindow().getApplication().getContext();
+                HttpSession session = webCtx.getHttpSession();
+                session.invalidate();
                 getMainWindow().getApplication().close();
                 authenticateUser();
             }
@@ -117,22 +121,26 @@ public class SpringHelloWorld extends com.vaadin.Application implements Button.C
         this.calcdWin = calcdWin;
     }
 
-    public boolean authorized(String ... roles){
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication!=null
-                && authentication.getAuthorities().size()>0
+    public boolean authorized(String... roles) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null
+                && authentication.getAuthorities().size() > 0
                 && (authentication.getAuthorities().toArray()[0].equals("ROLE_USER")
-                ||authentication.getAuthorities().toArray()[0].equals("ROLE_ADMIN")))
+                || authentication.getAuthorities().toArray()[0].equals("ROLE_ADMIN")))
             return true;
-		/*Collection<GrantedAuthority> authorities = authentication.getAuthorities();
-        for(GrantedAuthority authority: authorities){
-			for(String role: roles){
-				if(role.equals(authority.getAuthority())){
-					return true;
-				}
-			}
-		}*/
-		return false;
-	}
+        /*Collection<GrantedAuthority> authorities = authentication.getAuthorities();
+          for(GrantedAuthority authority: authorities){
+              for(String role: roles){
+                  if(role.equals(authority.getAuthority())){
+                      return true;
+                  }
+              }
+          }*/
+        return false;
+    }
+
+    public void destroyVaadinApp() {
+        logger.info("Destroy Vaadin application............");
+    }
 
 }
