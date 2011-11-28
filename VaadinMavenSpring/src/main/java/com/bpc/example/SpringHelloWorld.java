@@ -4,143 +4,171 @@
  */
 package com.bpc.example;
 
-import com.bpc.ui.*;
+import java.io.File;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.bpc.example.io.DownloadableFileStream;
+import com.bpc.example.service.ReportManager;
+import com.bpc.ui.CalcWindow;
+import com.bpc.ui.LoginWindow;
+import com.bpc.ui.ScoringRuleTable;
 import com.bpc.utils.SpringContextHelper;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
-import org.apache.log4j.Logger;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author do_th
  */
-//@Configurable(preConstruction = true)
-public class SpringHelloWorld extends com.vaadin.Application implements Button.ClickListener {
-    private static final Logger logger = Logger.getLogger(SpringHelloWorld.class);
-    //@Autowired
-    //private CalculateServices bean;
-    private CalcWindow calcdWin;
-    private Window mainWindow;
-    private ScoringRuleTable scoringRuleTable;
-    private LoginWindow loginWindow;
+// @Configurable(preConstruction = true)
+public class SpringHelloWorld extends com.vaadin.Application implements
+      Button.ClickListener {
+   private static final Logger logger = Logger
+         .getLogger(SpringHelloWorld.class);
+   // @Autowired
+   // private CalculateServices bean;
+   private CalcWindow calcdWin;
+   private Window mainWindow;
+   private ScoringRuleTable scoringRuleTable;
+   private LoginWindow loginWindow;
 
-    //@Override
-    public void init() {
-        authenticateUser();
-    }
+   private Button generateExampleReport = new Button("Export report");
 
-    public void authenticateUser() {
-        SpringContextHelper.getInstance(this);
-        setTheme("contacts");
-        if (authorized("ROLE_USER")) {
-            initAuthorizedUser();
-        } else {
-            initUnauthorizedUser();
-        }
-    }
+   private ReportManager reportManager;
 
-    public void initUnauthorizedUser() {
-        if (mainWindow != null && this.getWindows().contains(mainWindow)) {
-            removeWindow(mainWindow);
-            mainWindow = null;
-        }
+   // @Override
+   public void init() {
+      authenticateUser();
+   }
 
-        loginWindow = new LoginWindow("LoginWindow");
-        setMainWindow(loginWindow);
+   public void authenticateUser() {
+      SpringContextHelper.getInstance(this);
+      setTheme("contacts");
+      if (authorized("ROLE_USER")) {
+         initAuthorizedUser();
+      }
+      else {
+         initUnauthorizedUser();
+      }
+   }
 
-        loginWindow.windowClosedListener = new Action.Listener() {
-            public void handleAction(Object o, Object o1) {
-                authenticateUser();
-            }
-        };
-    }
+   public void initUnauthorizedUser() {
+      if (mainWindow != null && this.getWindows().contains(mainWindow)) {
+         removeWindow(mainWindow);
+         mainWindow = null;
+      }
 
-    public void initAuthorizedUser() {
-        if (loginWindow != null && this.getWindows().contains(loginWindow))
-            removeWindow(loginWindow);
+      loginWindow = new LoginWindow("LoginWindow");
+      setMainWindow(loginWindow);
 
-        mainWindow = new Window("MyApplication");
-        Label label = new Label("Hello Vaadin user");
-        //mainWindow.addComponent(label);
-        setMainWindow(mainWindow);
+      loginWindow.windowClosedListener = new Action.Listener() {
+         public void handleAction(Object o, Object o1) {
+            authenticateUser();
+         }
+      };
+   }
 
-        //SET LOGOUT BUTTON
-        Button btnLogout = new Button("Logout");
-        btnLogout.addListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent clickEvent) {
-                SecurityContextHolder.getContext().setAuthentication(null);
-                WebApplicationContext webCtx = (WebApplicationContext)  getMainWindow().getApplication().getContext();
-                HttpSession session = webCtx.getHttpSession();
-                session.invalidate();
-                getMainWindow().getApplication().close();
-                authenticateUser();
-            }
-        });
-        mainWindow.addComponent(btnLogout);
+   public void initAuthorizedUser() {
+      if (loginWindow != null && this.getWindows().contains(loginWindow))
+         removeWindow(loginWindow);
 
-        Button button = new Button("Add Calculation Window");
-        button.addListener(this);
-        mainWindow.addComponent(button);
-        //TreeTableBasicExample treeTableBasicExample = new TreeTableBasicExample();
-        //UserTableExample userTableExample = new UserTableExample();
-        //mainWindow.addComponent(treeTableBasicExample);
-        mainWindow.addComponent(scoringRuleTable);
-        //mainWindow.addComponent(tabSheetScoringRule);
-        //calcdWin = new CalcWindow("Child Window");
+      mainWindow = new Window("MyApplication");
+      Label label = new Label("Hello Vaadin user");
+      // mainWindow.addComponent(label);
+      setMainWindow(mainWindow);
 
+      // SET LOGOUT BUTTON
+      Button btnLogout = new Button("Logout");
+      btnLogout.addListener(new Button.ClickListener() {
+         public void buttonClick(ClickEvent clickEvent) {
+            SecurityContextHolder.getContext().setAuthentication(null);
+            WebApplicationContext webCtx = (WebApplicationContext) getMainWindow()
+                  .getApplication().getContext();
+            HttpSession session = webCtx.getHttpSession();
+            session.invalidate();
+            getMainWindow().getApplication().close();
+            authenticateUser();
+         }
+      });
+      // mainWindow.addComponent(btnLogout);
 
-    }
+      Button button = new Button("Add Calculation Window");
+      button.addListener(this);
+      mainWindow.addComponent(button);
 
-    public void buttonClick(ClickEvent event) {
-        if (calcdWin.getParent() != null) {
-            // window is already showing
-            mainWindow.removeWindow(calcdWin);
+      generateExampleReport.addListener(this);
+      mainWindow.addComponent(generateExampleReport);
 
-        } else {
-            mainWindow.addWindow(calcdWin);
+      // TreeTableBasicExample treeTableBasicExample = new
+      // TreeTableBasicExample();
+      // UserTableExample userTableExample = new UserTableExample();
+      // mainWindow.addComponent(treeTableBasicExample);
+      mainWindow.addComponent(scoringRuleTable);
+      // mainWindow.addComponent(tabSheetScoringRule);
+      // calcdWin = new CalcWindow("Child Window");
 
-        }
-    }
+   }
 
-    public void setScoringRuleTable(ScoringRuleTable scoringRuleTable) {
-        this.scoringRuleTable = scoringRuleTable;
-    }
+   public void buttonClick(ClickEvent event) {
+      if (calcdWin.getParent() != null) {
+         // window is already showing
+         mainWindow.removeWindow(calcdWin);
 
-    public void setCalcdWin(CalcWindow calcdWin) {
-        this.calcdWin = calcdWin;
-    }
+      }
+      else if (generateExampleReport == event.getButton()) {
+         File report = reportManager.generateUsersReport();
+         downloadReport(report, "report.xls");
+      }
+      else {
+         mainWindow.addWindow(calcdWin);
+      }
+   }
 
-    public boolean authorized(String... roles) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null
-                && authentication.getAuthorities().size() > 0
-                && (authentication.getAuthorities().toArray()[0].equals("ROLE_USER")
-                || authentication.getAuthorities().toArray()[0].equals("ROLE_ADMIN")))
-            return true;
-        /*Collection<GrantedAuthority> authorities = authentication.getAuthorities();
-          for(GrantedAuthority authority: authorities){
-              for(String role: roles){
-                  if(role.equals(authority.getAuthority())){
-                      return true;
-                  }
-              }
-          }*/
-        return false;
-    }
+   public void setScoringRuleTable(ScoringRuleTable scoringRuleTable) {
+      this.scoringRuleTable = scoringRuleTable;
+   }
 
-    public void destroyVaadinApp() {
-        logger.info("Destroy Vaadin application............");
-    }
+   public void setCalcdWin(CalcWindow calcdWin) {
+      this.calcdWin = calcdWin;
+   }
 
+   public boolean authorized(String... roles) {
+      Authentication authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+      if (authentication != null
+            && authentication.getAuthorities().size() > 0
+            && (authentication.getAuthorities().toArray()[0]
+                  .equals("ROLE_USER") || authentication.getAuthorities()
+                  .toArray()[0].equals("ROLE_ADMIN")))
+         return true;
+      /*
+       * Collection<GrantedAuthority> authorities =
+       * authentication.getAuthorities(); for(GrantedAuthority authority:
+       * authorities){ for(String role: roles){
+       * if(role.equals(authority.getAuthority())){ return true; } } }
+       */
+      return false;
+   }
+
+   public void destroyVaadinApp() {
+      logger.info("Destroy Vaadin application............");
+   }
+
+   public void setReportManager(ReportManager reportManager) {
+      this.reportManager = reportManager;
+   }
+
+   public void downloadReport(File file, final String attachmentName) {
+      DownloadableFileStream downloadableFileStream = new DownloadableFileStream(file, attachmentName, this);
+      downloadableFileStream.setCacheTime(5000); // no cache (<=0) does not work with IE8, (in milliseconds)
+      mainWindow.open(downloadableFileStream);
+   }
 }
