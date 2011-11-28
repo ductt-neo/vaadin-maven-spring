@@ -18,9 +18,8 @@
 
    <import resource="vaadin-ui.xml" />
 
-   <bean id="templateResource" class="org.springframework.core.io.UrlResource">
-      <constructor-arg
-         value="http://phuonghuynh-maven-repository.googlecode.com/svn/templates/scoring-rules.xls" />
+   <bean id="templateResource" class="org.springframework.core.io.ClassPathResource">
+      <constructor-arg value="scoring-rules.xls" />
    </bean>
 
    <bean id="springHelloWorld" class="com.bpc.example.SpringHelloWorld"
