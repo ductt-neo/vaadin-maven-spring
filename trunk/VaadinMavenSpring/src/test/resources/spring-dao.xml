@@ -20,6 +20,7 @@
           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
     <import resource="spring-dataSource.xml"/>
     <bean id="feUserDao" class="com.bpc.dao.FEUserDaoImpl">
         <property name="dataSource" ref="dataSource"></property>
@@ -27,12 +28,16 @@
     <bean id="scoringRuleDao" class="com.bpc.dao.ScoringRuleDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
     <bean id="scoringUserDao" class="com.bpc.dao.ScoringUserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    
     <bean id="scoringUserAuthorityDao" class="com.bpc.dao.ScoringUserAuthorityDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
 
 
 </beans>
