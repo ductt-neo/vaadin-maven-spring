@@ -17,64 +17,62 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 
 /**
- *
  * @author do_th
  */
 @Entity
 @Table(name = "SCORING_SCHEME")
 @NamedQueries({
-		@NamedQuery(name = "ScoringScheme.findAll", query = "SELECT s FROM ScoringScheme s"),
-		@NamedQuery(name = "ScoringScheme.findBySchemeId", query = "SELECT s FROM ScoringScheme s WHERE s.id = :schemeId"),
-		@NamedQuery(name = "ScoringScheme.findBySchemeName", query = "SELECT s FROM ScoringScheme s WHERE s.name = :schemeName") })
+        @NamedQuery(name = "ScoringScheme.findAll", query = "SELECT s FROM ScoringScheme s"),
+        @NamedQuery(name = "ScoringScheme.findBySchemeId", query = "SELECT s FROM ScoringScheme s WHERE s.id = :schemeId"),
+        @NamedQuery(name = "ScoringScheme.findBySchemeName", query = "SELECT s FROM ScoringScheme s WHERE s.name = :schemeName")})
 public class ScoringScheme implements EntityBean {
 
+    private Long id;
 
+    private String name;
 
-	private Long id;
-
-	private String name;
-
-	private List<ScoringRule> rules;
-
+    private List<ScoringRule> rules;
 
     private List<MappingScheme> mappingSchemeList;
 
-	public ScoringScheme(){}
-	public ScoringScheme(Long id){
-		this.id = id;
-	}
+    public ScoringScheme() {
+    }
 
-	@TableGenerator(name = "SCHEME_TABLE_GENERATOR", table = "SEQUENCE_GENERATOR_TABLE", pkColumnName = "SEQUENCE_NAME", valueColumnName = "SEQUENCE_VALUE", pkColumnValue = "SCHEME_SEQUENCE")
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "SCHEME_TABLE_GENERATOR")
-	@Column(name = "SCHEME_ID")
-	public Long getId() {
-		return id;
-	}
+    public ScoringScheme(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @TableGenerator(name = "SCHEME_TABLE_GENERATOR", table = "SEQUENCE_GENERATOR_TABLE", pkColumnName = "SEQUENCE_NAME", valueColumnName = "SEQUENCE_VALUE", pkColumnValue = "SCHEME_SEQUENCE")
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "SCHEME_TABLE_GENERATOR")
+    @Column(name = "SCHEME_ID")
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Transient
-	public List<ScoringRule> getRules() {
-		return rules;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setRules(List<ScoringRule> rules) {
-		this.rules = rules;
-	}
+    @Transient
+    public List<ScoringRule> getRules() {
+        return rules;
+    }
 
-	@Transient
-	public List<MappingScheme> getMappingSchemeList() {
+    public void setRules(List<ScoringRule> rules) {
+        this.rules = rules;
+    }
+
+    @Transient
+    public List<MappingScheme> getMappingSchemeList() {
         return mappingSchemeList;
     }
 
@@ -82,14 +80,14 @@ public class ScoringScheme implements EntityBean {
         this.mappingSchemeList = mappingSchemeList;
     }
 
-	@Transient
-	public Object getModelId() {
-		return getId();
-	}
+    @Transient
+    public Object getModelId() {
+        return getId();
+    }
 
-	@Override
-	public String toString() {
-		return  name;
-	}
+    @Override
+    public String toString() {
+        return name;
+    }
 
 }
