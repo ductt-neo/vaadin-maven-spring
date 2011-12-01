@@ -18,15 +18,18 @@
 
    <import resource="vaadin-ui.xml" />
 
+
    <bean id="templateResource" class="org.springframework.core.io.ClassPathResource">
       <constructor-arg value="scoring-rules.xls" />
    </bean>
 
    <bean id="springHelloWorld" class="com.bpc.example.SpringHelloWorld"
       scope="request">
-      <property name="scoringRuleTable" ref="scoringRuleTable" />
+      <!--  
+      <property name="scoringRuleTable" ref="scoringRuleTable" />   
       <property name="calcdWin" ref="calcWindow" />
       <property name="reportManager" ref="reportManager" />
+      -->
    </bean>
 
 </beans>
