@@ -49,31 +49,27 @@ public class ReportManagerImpl implements ReportManager {
 
       File outputFile;
       try {
-         // File templateFile = templateResource.getInputStream();
-         InputStream inputTemplateStream = templateResource.getInputStream();
+         outputFile = File.createTempFile(EXAMPLE_FILENAME, ".xls");
+
          XLSTransformer transformer = new XLSTransformer();
          transformer.groupCollection("scoringRule.id");
-         Workbook workbook = transformer.transformXLS(inputTemplateStream,
-               beanParams);
+         InputStream inputTemplateStream = templateResource.getInputStream();
+         Workbook workbook = transformer.transformXLS(inputTemplateStream, beanParams);
 
-         outputFile = File.createTempFile(EXAMPLE_FILENAME, ".xls");
          OutputStream outputStream = new PrintStream(outputFile);
          workbook.write(outputStream);
          outputStream.close();
       }
       catch (FileNotFoundException e) {
-         if (LOG.isErrorEnabled())
-            LOG.error(e);
+         if (LOG.isErrorEnabled()) LOG.error(e);
          throw new ExampleReportException(e);
       }
       catch (InvalidFormatException e) {
-         if (LOG.isErrorEnabled())
-            LOG.error(e);
+         if (LOG.isErrorEnabled()) LOG.error(e);
          throw new ExampleReportException(e);
       }
       catch (IOException e) {
-         if (LOG.isErrorEnabled())
-            LOG.error(e);
+         if (LOG.isErrorEnabled()) LOG.error(e);
          throw new ExampleReportException(e);
       }
       return outputFile;

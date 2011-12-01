@@ -16,54 +16,72 @@ import javax.persistence.Transient;
 @Table(name = "SCORING_FACTOR")
 public class Factor implements EntityBean {
 
+   private Long id;
 
+   private String name = "";
 
-	private Long id;
+   private List<ScoringRule> scoringRules;
 
-	private String name;
+   public Factor() {
+   }
 
-    private List<ScoringRule> scoringRules;
+   public Factor(Long id) {
+      this.id = id;
+   }
 
-    public Factor(){}
-    public Factor(Long id){
-    	this.id = id;
-    }
+   public Factor(String name) {
+      id = 0L;
+      this.name = name;
+   }
 
-	@TableGenerator(name = "FACTOR_TABLE_GENERATOR", table = "SEQUENCE_GENERATOR_TABLE", pkColumnName = "SEQUENCE_NAME", valueColumnName = "SEQUENCE_VALUE", pkColumnValue = "FACTOR_SEQUENCE")
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "FACTOR_TABLE_GENERATOR")
-	@Column(name = "FACTOR_ID")
-	public Long getId() {
-		return id;
-	}
-	@OneToMany( mappedBy = "factor")
-	public List<ScoringRule> getScoringRules() {
-		return scoringRules;
-	}
+   public Factor(Long id, String name) {
+      this.id = id;
+      this.name = name;
+   }
 
-	public void setScoringRules(List<ScoringRule> scoringRules) {
-		this.scoringRules = scoringRules;
-	}
+   @TableGenerator(name = "FACTOR_TABLE_GENERATOR", table = "SEQUENCE_GENERATOR_TABLE", pkColumnName = "SEQUENCE_NAME", valueColumnName = "SEQUENCE_VALUE", pkColumnValue = "FACTOR_SEQUENCE")
+   @Id
+   @GeneratedValue(strategy = GenerationType.TABLE, generator = "FACTOR_TABLE_GENERATOR")
+   @Column(name = "FACTOR_ID")
+   public Long getId() {
+      return id;
+   }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+   @OneToMany(mappedBy = "factor")
+   public List<ScoringRule> getScoringRules() {
+      return scoringRules;
+   }
 
-	public String getName() {
-		return name;
-	}
+   public void setScoringRules(List<ScoringRule> scoringRules) {
+      this.scoringRules = scoringRules;
+   }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-	@Transient
-	public Object getModelId() {
-		return getId();
-	}
+   public String getName() {
+      return name;
+   }
 
-    public String toString(){
-        return this.name;
-    }
+   public void setName(String name) {
+      this.name = name;
+   }
 
+   @Transient
+   public Object getModelId() {
+      return getId();
+   }
+
+   public String toString() {
+      return this.name;
+   }
+   
+   public int hashCode() {
+      return name.hashCode();
+   }
+
+   public boolean equals(Object factor) {
+      return (factor instanceof Factor) ? name.equalsIgnoreCase(((Factor) factor).getName()) : false;
+   }
 }

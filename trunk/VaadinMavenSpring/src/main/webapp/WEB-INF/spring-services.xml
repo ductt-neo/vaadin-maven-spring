@@ -33,5 +33,6 @@
         <property name="scoringRuleDao" ref="scoringRuleDao"/>
         <property name="scoringRuleCaseDao" ref="scoringRuleCaseDao"/>
         <property name="mappingRuleDao" ref="mappingRuleDao"/>
+        <property name="factorDao" ref="factorDao"/>
     </bean>
 </beans>
