@@ -125,7 +125,7 @@ public class ScoringRule implements EntityBean {
 
    @Override
    public String toString() {
-      return id.toString();
+      return id.toString()+" : "+ scheme.getName();
    }
 
 }

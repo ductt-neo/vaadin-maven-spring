@@ -11,8 +11,8 @@ public class FormWindow extends Window{
 		setModal(true);
 		setPositionX(100);
 		setPositionX(100);
-		setHeight(450);
-		setWidth(480);
+		setHeight(400);
+		setWidth(400);
 		formPojoExample = new FormPojoExample();
 		addComponent(formPojoExample);
 	}
