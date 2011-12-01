@@ -3,6 +3,7 @@ package com.bpc.dao;
 import com.bpc.model.ScoringRule;
 import com.bpc.model.ScoringUser;
 import org.junit.Assert;
+
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import java.sql.SQLException;
@@ -32,15 +33,19 @@ public class ScoringRuleDaoTest extends AbstractDependencyInjectionSpringContext
         this.scoringUserDao = scoringUserDao;
     }
 
+
     public void testGetList() throws SQLException {
         List<ScoringRule> scoringRuleList = scoringRuleDao.getList();
         System.out.println("Number of Record loaded: " + scoringRuleList.size());
 
     }
 
-    public void testGetAllUser() throws SQLException {
-        List<ScoringUser> users = scoringUserDao.getList();
-        System.out.println("UNIT TEST >>>" + users.size());
-        Assert.assertNotNull(users);
+    public void testGetAllUser() {
+        List<ScoringUser> scoringUsers = scoringUserDao.getList();
+        System.out.println("Number of User loaded: " + scoringUsers.size());
     }
+
+
+
+
 }
