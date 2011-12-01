@@ -14,6 +14,7 @@ import com.bpc.utils.ScoringRuleController;
 import com.vaadin.data.Property;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Table;
@@ -48,9 +49,14 @@ public class ScoringRuleWindow extends Window {
 		add.addListener(new AddListener());
 		edit = new Button("Edit");
 		edit.setEnabled(false);
-
-		addComponent(add);
-		addComponent(edit);
+		
+		HorizontalLayout buttons = new HorizontalLayout();
+        buttons.setSpacing(true);
+        buttons.addComponent(add);
+        buttons.addComponent(edit);
+		
+		addComponent(buttons);
+		
 		addComponent(tabSheetScoringRule);
 		addListener(new Window.CloseListener() {
 			public void windowClose(CloseEvent e) {
@@ -92,9 +98,10 @@ public class ScoringRuleWindow extends Window {
 					.getValue();
 			// if (null == user || value.size() == 0) {
 			if (null == scoringRule) {
-				edit.setEnabled(true);
+				edit.setEnabled(false);
 			} else {
 				// selected.setValue("Selected: " + scoringRule.toString());
+				edit.setEnabled(true);
 				addComponent(tabSheetScoringRule);
 				tabSheetScoringRule.getRuleCaseTable().setTableDataSources(
 						scoringRuleController
