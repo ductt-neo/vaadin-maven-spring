@@ -11,6 +11,7 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,9 +30,9 @@ public class CalculateWebServicesTest extends AbstractJUnit4SpringContextTests {
     private ApplicationContext context;
 
     @Test
-    public void testGetList()throws SQLException{
+    public void testCalculate()throws SQLException{
         CalculateWebServices client = (CalculateWebServices) context.getBean("client");
         double result= client.addCalc(5,6);
-        Assert.assertEquals(11.0, result, 0 );
+        Assert.assertEquals(11.0, result, 0);
     }
 }
