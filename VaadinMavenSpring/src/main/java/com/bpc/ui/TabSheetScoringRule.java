@@ -25,6 +25,7 @@ public class TabSheetScoringRule extends VerticalLayout {
     }
 
     public TabSheetScoringRule() {
+
     }
 
     public void init() {

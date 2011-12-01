@@ -34,17 +34,19 @@ public class ScoringRuleController {
 
     public BeanItemContainer<ScoringRuleCase> getRuleCaseBeanItemContainer(ScoringRule scoringRule) {
         List<ScoringRuleCase> ruleCaseList = this.scoringRuleServices.getRuleCaseList(scoringRule);
+        //List<ScoringRuleCase> ruleCaseList = scoringRule.getRuleCases();
         BeanItemContainer<ScoringRuleCase> beanItemContainer =
                 new BeanItemContainer<ScoringRuleCase>(ScoringRuleCase.class, ruleCaseList);
-        beanItemContainer.sort(FieldNameUtils.ruleCaseFieldName,new boolean[]{true});
+        beanItemContainer.sort(FieldNameUtils.ruleCaseFieldName, new boolean[]{true});
         return beanItemContainer;
     }
 
-    public BeanItemContainer<MappingRule> getMappingRuleBeanItemContainer(ScoringRule scoringRule){
+    public BeanItemContainer<MappingRule> getMappingRuleBeanItemContainer(ScoringRule scoringRule) {
         List<MappingRule> mappingRuleList = this.scoringRuleServices.getMappingRuleList(scoringRule);
+        //List<MappingRule> mappingRuleList = scoringRule.getMappingRuleList();
         BeanItemContainer<MappingRule> beanItemContainer =
                 new BeanItemContainer<MappingRule>(MappingRule.class, mappingRuleList);
-        beanItemContainer.sort(FieldNameUtils.mappingRuleFieldName,new boolean[]{true});
+        beanItemContainer.sort(FieldNameUtils.mappingRuleFieldName, new boolean[]{true});
         return beanItemContainer;
     }
 }
