@@ -22,21 +22,20 @@
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     <import resource="vaadin-controller.xml"/>
 
-    <bean id="userTable" class="com.bpc.ui.UserTableExample" scope="request">
+    <bean id="userTable" class="com.bpc.ui.UserTableExample" scope="request" lazy-init="true">
         <property name="userController" ref="userController"/>
     </bean>
-    <bean id="calcWindow" class="com.bpc.ui.CalcWindow" lazy-init="true" scope="request">
+    <bean id="calcWindow" class="com.bpc.ui.CalcWindow" lazy-init="true" scope="request" >
         <constructor-arg name="caption" value="Calculation Window"/>
         <property name="calculateServices" ref="calculateServices"/>
     </bean>
-    <bean id="scoringRuleTable" class="com.bpc.ui.ScoringRuleTable" scope="request">
-        <constructor-arg index="0" ref="tabSheetScoringRule"  />
+    <bean id="scoringRuleTable" class="com.bpc.ui.ScoringRuleTable" scope="request" lazy-init="true">
+       
+    </bean>
+    <bean id="ruleCaseTable" class="com.bpc.ui.RuleCaseTable" scope="request" lazy-init="true">
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
-    <bean id="ruleCaseTable" class="com.bpc.ui.RuleCaseTable" scope="request">
-        <property name="scoringRuleController" ref="scoringRuleController"/>
-    </bean>
-    <bean id="mappingRuleTable" class="com.bpc.ui.MappingRuleTable" scope="request">
+    <bean id="mappingRuleTable" class="com.bpc.ui.MappingRuleTable" scope="request" lazy-init="true">
         <property name="scoringRuleController" ref="scoringRuleController"/>
     </bean>
 
@@ -45,7 +44,7 @@
         <property name="mappingRuleTable" ref="mappingRuleTable"/>
         <property name="ruleCaseTable" ref="ruleCaseTable"/>
     </bean>
-    <bean id="loginWindow" class="com.bpc.ui.LoginWindow" lazy-init="true" scope="request">
+    <bean id="loginWindow" class="com.bpc.ui.LoginWindow"  scope="request" lazy-init="true">
         <constructor-arg name="caption" value="Login Window"/>
         <!--<property name="calculateServices" ref="calculateServices"/>-->
     </bean>

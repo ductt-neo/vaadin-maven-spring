@@ -38,6 +38,8 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="transaction.auto_close_session">false</prop>
+                <prop key="hibernate.c3p0.timeout">10</prop>
             </props>
         </property>
     </bean>
