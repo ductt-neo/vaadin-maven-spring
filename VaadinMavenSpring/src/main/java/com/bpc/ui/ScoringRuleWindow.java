@@ -50,6 +50,9 @@ public class ScoringRuleWindow extends Window {
 		edit = new Button("Edit");
 		edit.setEnabled(false);
 		
+		
+		addComponent(tabSheetScoringRule);
+
 		HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);
         buttons.addComponent(add);
@@ -57,7 +60,6 @@ public class ScoringRuleWindow extends Window {
 		
 		addComponent(buttons);
 		
-		addComponent(tabSheetScoringRule);
 		addListener(new Window.CloseListener() {
 			public void windowClose(CloseEvent e) {
 

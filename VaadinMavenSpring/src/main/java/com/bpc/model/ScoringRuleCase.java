@@ -50,6 +50,9 @@ public class ScoringRuleCase implements EntityBean {
 	private List<MappingRuleCase> mappingRuleCaseList;
 
 	public ScoringRuleCase() {
+		factorChoice ="";
+		score = 0d;
+		
 	}
 
 	public ScoringRuleCase(Long id) {
