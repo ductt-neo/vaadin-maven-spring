@@ -26,7 +26,7 @@
 
 	<bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
 	  <property name="serviceClass" value="com.bpc.services.CalculateWebServices"/>
-	  <property name="address" value="http://bpc-vn17/VaadinMavenSpring/ws/calculateService"/>
+	  <property name="address" value="http://bpc-vn05:8080/VaadinMavenSpring/ws/calculateService"/>
 	</bean>
 
 </beans>
