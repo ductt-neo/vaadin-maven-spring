@@ -11,7 +11,7 @@ package com.bpc.services;
  * @author do_th
  */
 
-public interface CalculateServices extends Services{
+public interface CalculateServices {
     
     public Double addCalc(double a, double b);
 }
