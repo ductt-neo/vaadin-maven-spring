@@ -4,6 +4,7 @@
  */
 package com.bpc.services;
 
+
 import org.springframework.security.access.annotation.Secured;
 
 /**
@@ -12,8 +13,7 @@ import org.springframework.security.access.annotation.Secured;
  */
 //@Service
 public class CalculateServicesImpl implements CalculateServices {
-
-    @Secured("ROLE_USER")
+    @Secured("ROLE_ADMIN")
     public Double addCalc(double a, double b) {
         return a + b;
     }
