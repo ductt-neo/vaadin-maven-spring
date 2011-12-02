@@ -1,13 +1,9 @@
 package com.bpc.example.ui.component;
 
-import java.math.BigDecimal;
-
 import com.bpc.dao.ScoringRuleDao;
 import com.bpc.example.ui.enu.FormStatusEnum;
-import com.bpc.model.Factor;
 import com.bpc.model.ScoringRule;
-import com.bpc.model.ScoringScheme;
-import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Field;
@@ -19,100 +15,108 @@ import com.vaadin.ui.themes.BaseTheme;
 
 public class ScoringRuleForm extends Form {
 
-   private static final long serialVersionUID = -161670637794295178L;
+	private static final long serialVersionUID = -161670637794295178L;
 
-   private GridLayout gridLayout;
+	private GridLayout gridLayout;
 
-   private Button okButton;
-   private Button disardButton;
+	private Button okButton;
 
-   private ScoringRuleDao scoringRuleDao;
-   private FormStatusEnum status;
+	private Button disardButton;
 
-   public ScoringRuleForm() {
-      initLayout();
-   }
+	private ScoringRuleDao scoringRuleDao;
 
-   private void initLayout() {
-      setCaption("ExampleScoring Rule Form");
-      setDescription("Please specify the information as bellow");
+	private FormStatusEnum status;
 
-      HorizontalLayout buttonsLayout = new HorizontalLayout();
-      buttonsLayout.setSpacing(true);
+	public ScoringRuleForm() {
+		initLayout();
+	}
 
-      disardButton = new Button("Discard", this, "handleDiscardButtonClick");
-      disardButton.setStyleName(BaseTheme.BUTTON_LINK);
-      buttonsLayout.addComponent(disardButton);
+	private void initLayout() {
+		setCaption("ExampleScoring Rule Form");
+		setDescription("Please specify the information as bellow");
 
-      okButton = new Button("Save", this, "handleOkButtonClick");
-      buttonsLayout.addComponent(okButton);
+		HorizontalLayout buttonsLayout = new HorizontalLayout();
+		buttonsLayout.setSpacing(true);
 
-      gridLayout = new GridLayout(2, 3);
-      gridLayout.setMargin(true, false, false, true);
-      gridLayout.setSpacing(true);
-      gridLayout.addComponent(buttonsLayout, 1, 2);
+		disardButton = new Button("Discard", this, "handleDiscardButtonClick");
+		disardButton.setStyleName(BaseTheme.BUTTON_LINK);
+		buttonsLayout.addComponent(disardButton);
 
-      setLayout(gridLayout);
-   }
+		okButton = new Button("Save", this, "handleOkButtonClick");
+		buttonsLayout.addComponent(okButton);
 
-   protected void attachField(Object propertyId, Field field) {
-      if ("weight".equals(propertyId)) {
-         gridLayout.addComponent(field, 0, 0);
-      }
-      else if ("factor".equals(propertyId)) {
-         gridLayout.addComponent(field, 0, 1);
-      }
-      else if ("scheme".equals(propertyId)) {
-         gridLayout.addComponent(field, 1, 1);
-      }
-   }
+		gridLayout = new GridLayout(2, 3);
+		gridLayout.setMargin(true, false, false, true);
+		gridLayout.setSpacing(true);
+		gridLayout.addComponent(buttonsLayout, 1, 2);
 
-   public void handleOkButtonClick(ClickEvent event) {
-      switch (status) {
-         case ADD:
-            addnew();
-            break;
-         case EDIT:
-            editme();
-            break;
-      }
-      closeme();
-   }
+		setLayout(gridLayout);
+	}
 
-   private void editme() {
-      Item item = getItemDataSource();
-   }
+	protected void attachField(Object propertyId, Field field) {
+		if ("weight".equals(propertyId)) {
+			gridLayout.addComponent(field, 0, 0);
+		}
+		else if ("factor".equals(propertyId)) {
+			gridLayout.addComponent(field, 0, 1);
+		}
+		else if ("scheme".equals(propertyId)) {
+			gridLayout.addComponent(field, 1, 1);
+		}
+	}
 
-   private void addnew() {
-      ScoringRule model = new ScoringRule();
-      Field field = getField("weight");
-      model.setWeight(new BigDecimal((String) field.getValue()));
+	public void handleOkButtonClick(ClickEvent event) {
+		switch (status) {
+			case ADD:
+				addnew();
+				break;
+			case EDIT:
+				editme();
+				break;
+		}
+		closeme();
+	}
 
-      field = getField("factor");
-      Factor factor = (Factor) field.getValue();
-      model.setFactor(factor);
+	private void editme() {
+		BeanItem<?> item = (BeanItem<?>) getItemDataSource();
+		scoringRuleDao.update((ScoringRule) item.getBean());
+	}
 
-      field = getField("scheme");
-      model.setScheme((ScoringScheme) field.getValue());
-      scoringRuleDao.save(model);
-   }
+	private void addnew() {
+		// ScoringRule model = new ScoringRule();
+		// Field field = getField("weight");
+		// model.setWeight(new BigDecimal((String) field.getValue()));
+		//
+		// field = getField("factor");
+		// Factor factor = (Factor) field.getValue();
+		// model.setFactor(factor);
+		//
+		// field = getField("scheme");
+		// model.setScheme((ScoringScheme) field.getValue());
+		BeanItem<?> item = (BeanItem<?>) getItemDataSource();
+		scoringRuleDao.save((ScoringRule) item.getBean());
+	}
 
-   public void handleDiscardButtonClick(ClickEvent event) {
-      closeme();
-   }
+	public void handleDiscardButtonClick(ClickEvent event) {
+		status = FormStatusEnum.DISCARD;
+		closeme();
+	}
 
-   private void closeme() {
-      Window w = getWindow();
-      Window mainWindow = w.getApplication().getMainWindow();
-      mainWindow.removeWindow(w);
-   }
+	private void closeme() {
+		Window w = getWindow();
+		Window mainWindow = w.getApplication().getMainWindow();
+		mainWindow.removeWindow(w);
+	}
 
-   public void setScoringRuleDao(ScoringRuleDao scoringRuleDao) {
-      this.scoringRuleDao = scoringRuleDao;
-   }
+	public void setScoringRuleDao(ScoringRuleDao scoringRuleDao) {
+		this.scoringRuleDao = scoringRuleDao;
+	}
 
-   public void setStatus(FormStatusEnum status) {
-      this.status = status;
-   }
+	public void setStatus(FormStatusEnum status) {
+		this.status = status;
+	}
 
+	public FormStatusEnum getStatus() {
+		return status;
+	}
 }

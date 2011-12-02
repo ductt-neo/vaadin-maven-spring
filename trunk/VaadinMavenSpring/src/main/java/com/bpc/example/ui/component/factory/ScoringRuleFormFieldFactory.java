@@ -1,9 +1,7 @@
 package com.bpc.example.ui.component.factory;
 
-import com.bpc.model.Factor;
 import com.bpc.utils.ScoringRuleController;
 import com.vaadin.data.Item;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.MethodProperty;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
