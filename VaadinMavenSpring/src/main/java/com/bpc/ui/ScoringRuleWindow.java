@@ -4,26 +4,26 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Component;
 
 import com.bpc.model.ScoringRule;
-import com.bpc.ui.forms.FormPojoExample;
 import com.bpc.ui.forms.FormWindow;
 import com.bpc.utils.ScoringRuleController;
 import com.vaadin.data.Property;
-
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Window;
 
 @Component("scoringRuleWindow")
 @Scope("request")
 public class ScoringRuleWindow extends Window {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6576123670609795175L;
 	@Autowired
 	private ScoringRuleTable scoringRuleTable;
 	@Autowired
@@ -49,17 +49,16 @@ public class ScoringRuleWindow extends Window {
 		add.addListener(new AddListener());
 		edit = new Button("Edit");
 		edit.setEnabled(false);
-		
-		
+
 		addComponent(tabSheetScoringRule);
 
 		HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setSpacing(true);
-        buttons.addComponent(add);
-        buttons.addComponent(edit);
-		
+		buttons.setSpacing(true);
+		buttons.addComponent(add);
+		buttons.addComponent(edit);
+
 		addComponent(buttons);
-		
+
 		addListener(new Window.CloseListener() {
 			public void windowClose(CloseEvent e) {
 
@@ -82,8 +81,7 @@ public class ScoringRuleWindow extends Window {
 	private class LoadingScoringRuleListner implements Button.ClickListener {
 
 		public void buttonClick(ClickEvent event) {
-			scoringRuleTable.getTable().setContainerDataSource(
-					scoringRuleController.getScoringRuleBeanItemContainer());
+			scoringRuleTable.getTable().setContainerDataSource(scoringRuleController.getScoringRuleBeanItemContainer());
 			scoringRuleTable.setTableStyte();
 
 		}
@@ -96,21 +94,19 @@ public class ScoringRuleWindow extends Window {
 			// in multiselect mode, a Set of itemIds is returned,
 			// in singleselect mode the itemId is returned directly
 			// Set<?> value = (Set<?>) event.getProperty().getValue();
-			ScoringRule scoringRule = (ScoringRule) event.getProperty()
-					.getValue();
+			ScoringRule scoringRule = (ScoringRule) event.getProperty().getValue();
 			// if (null == user || value.size() == 0) {
 			if (null == scoringRule) {
 				edit.setEnabled(false);
-			} else {
+			}
+			else {
 				// selected.setValue("Selected: " + scoringRule.toString());
 				edit.setEnabled(true);
 				addComponent(tabSheetScoringRule);
 				tabSheetScoringRule.getRuleCaseTable().setTableDataSources(
-						scoringRuleController
-								.getRuleCaseBeanItemContainer(scoringRule));
+						scoringRuleController.getRuleCaseBeanItemContainer(scoringRule));
 				tabSheetScoringRule.getMappingRuleTable().setTableDataSources(
-						scoringRuleController
-								.getMappingRuleBeanItemContainer(scoringRule));
+						scoringRuleController.getMappingRuleBeanItemContainer(scoringRule));
 			}
 		}
 

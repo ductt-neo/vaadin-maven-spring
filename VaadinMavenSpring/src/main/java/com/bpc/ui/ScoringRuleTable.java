@@ -6,102 +6,122 @@ import com.bpc.example.ui.component.ScoringRuleForm;
 import com.bpc.example.ui.enu.FormStatusEnum;
 import com.bpc.model.ScoringRule;
 import com.bpc.utils.FieldNameUtils;
-import com.vaadin.data.util.BeanItem;
+import com.bpc.utils.ScoringRuleController;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.NestedMethodProperty;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.Window.CloseEvent;
+import com.vaadin.ui.Window.CloseListener;
 import com.vaadin.ui.themes.BaseTheme;
 
-/**
- * Created by IntelliJ IDEA. User: do_th Date: 11/18/11 Time: 4:26 PM To change
- * this template use File | Settings | File Templates.
- */
 public class ScoringRuleTable extends VerticalLayout {
 
-   private Table table;
-   private ScoringRuleForm scoringRuleForm;
+	private static final long serialVersionUID = 7372494328695818785L;
 
-   public ScoringRuleTable() {
-      table = new Table("Scoring Rules Table");
-      addComponent(table);
-      table.setContainerDataSource(new BeanItemContainer<ScoringRule>(ScoringRule.class, new ArrayList<ScoringRule>()));
-      initActionButtons();
+	private Table table;
 
-      // set column headers
-      setTableStyte();
-   }
+	private ScoringRuleForm scoringRuleForm;
 
-   public void setTableStyte() {
-      // size
-      table.setWidth("100%");
-      table.setHeight("170px");
-      // selectable
-      table.setSelectable(true);
-      table.setMultiSelect(false);
-      table.setImmediate(true); // react at once when something is selected
+	private Window scoringRulePopupWindow;
 
-      // turn on column reordering and collapsing
-      table.setColumnReorderingAllowed(true);
-      table.setColumnCollapsingAllowed(true);
-      String[] columns = FieldNameUtils.scoringRuleFieldName;
-      table.setVisibleColumns(columns);
-      table.setColumnHeaders(columns);
-      // Column alignment
-      for (int i = 0; i < columns.length; i++) {
-         table.setColumnAlignment(columns[i], Table.ALIGN_LEFT);
-      }
-   }
+	private ScoringRuleController scoringRuleController;
 
-   public Table getTable() {
-      return table;
-   }
+	public ScoringRuleTable() {
+		table = new Table("Scoring Rules Table");
+		addComponent(table);
+		table.setContainerDataSource(new BeanItemContainer<ScoringRule>(ScoringRule.class, new ArrayList<ScoringRule>()));
+		initActionButtons();
 
-   public void setScoringRuleForm(ScoringRuleForm scoringRuleForm) {
-      this.scoringRuleForm = scoringRuleForm;
-   }
+		// set column headers
+		setTableStyte();
+	}
 
-   private void initActionButtons() {
-      HorizontalLayout actionButtonsLayout = new HorizontalLayout();
-      actionButtonsLayout.setSpacing(true);
+	public void setTableStyte() {
+		// size
+		table.setWidth("100%");
+		table.setHeight("170px");
+		// selectable
+		table.setSelectable(true);
+		table.setMultiSelect(false);
+		table.setImmediate(true); // react at once when something is selected
 
-      Button addNewButton = new Button("Add new", this, "handleAddNewButtonClick");
-      actionButtonsLayout.addComponent(addNewButton);
+		// turn on column reordering and collapsing
+		table.setColumnReorderingAllowed(true);
+		table.setColumnCollapsingAllowed(true);
+		String[] columns = FieldNameUtils.scoringRuleFieldName;
+		table.setVisibleColumns(columns);
+		table.setColumnHeaders(columns);
+		// Column alignment
+		for (int i = 0; i < columns.length; i++) {
+			table.setColumnAlignment(columns[i], Table.ALIGN_LEFT);
+		}
+	}
 
-      Button editButton = new Button("Edit selected item", this, "handleEditButtonClick");
-      editButton.setStyleName(BaseTheme.BUTTON_LINK);
-      actionButtonsLayout.addComponent(editButton);
+	public Table getTable() {
+		return table;
+	}
 
-      addComponent(actionButtonsLayout);
-   }
+	public void setScoringRuleForm(ScoringRuleForm scoringRuleForm) {
+		this.scoringRuleForm = scoringRuleForm;
+	}
 
-   public void handleEditButtonClick(ClickEvent event) {
-      ScoringRule value = (ScoringRule) table.getValue();
-      BeanItem<ScoringRule> bean = new BeanItem<ScoringRule>(value);
-      bean.addItemProperty("factorname", new NestedMethodProperty(value, "factor.name"));
-      scoringRuleForm.setStatus(FormStatusEnum.EDIT);
-      scoringRuleForm.setItemDataSource(bean);
-      popupScoringRuleForm();
-   }
+	private void initActionButtons() {
+		HorizontalLayout actionButtonsLayout = new HorizontalLayout();
+		actionButtonsLayout.setSpacing(true);
 
-   public void handleAddNewButtonClick(ClickEvent event) {
-      BeanItem<ScoringRule> bean = new BeanItem<ScoringRule>(new ScoringRule());
-      scoringRuleForm.setStatus(FormStatusEnum.ADD);
-      scoringRuleForm.setItemDataSource(bean);
-      popupScoringRuleForm();
-   }
+		Button addNewButton = new Button("Add new", this, "handleAddNewButtonClick");
+		actionButtonsLayout.addComponent(addNewButton);
 
-   private void popupScoringRuleForm() {
-      Window scoringRulePopupWindow = new Window();
-      scoringRulePopupWindow.setWidth("70%");
-      scoringRulePopupWindow.setHeight("50%");
-      scoringRulePopupWindow.center();
-      scoringRulePopupWindow.addComponent(scoringRuleForm);
-      getApplication().getMainWindow().addWindow(scoringRulePopupWindow);
-   }
+		Button editButton = new Button("Edit selected item", this, "handleEditButtonClick");
+		editButton.setStyleName(BaseTheme.BUTTON_LINK);
+		actionButtonsLayout.addComponent(editButton);
 
+		addComponent(actionButtonsLayout);
+	}
+
+	public void handleEditButtonClick(ClickEvent event) {
+		Item bean = (Item) table.getItem(table.getValue());
+		scoringRuleForm.setStatus(FormStatusEnum.EDIT);
+		scoringRuleForm.setItemDataSource(bean);
+		popupScoringRuleForm();
+	}
+
+	public void handleAddNewButtonClick(ClickEvent event) {
+		Container ds = table.getContainerDataSource();
+		ScoringRule bean = new ScoringRule();
+		Item newItem = ds.addItem(bean);
+		scoringRuleForm.setStatus(FormStatusEnum.ADD);
+		scoringRuleForm.setItemDataSource(newItem);
+		popupScoringRuleForm();
+	}
+
+	private void popupScoringRuleForm() {
+		if (scoringRulePopupWindow == null) initScoringRulePopupWindow();
+		getApplication().getMainWindow().addWindow(scoringRulePopupWindow);
+	}
+
+	private void initScoringRulePopupWindow() {
+		scoringRulePopupWindow = new Window();
+		scoringRulePopupWindow.setWidth("70%");
+		scoringRulePopupWindow.setHeight("50%");
+		scoringRulePopupWindow.center();
+		scoringRulePopupWindow.addComponent(scoringRuleForm);
+		scoringRulePopupWindow.addListener(new CloseListener() {
+			public void windowClose(CloseEvent e) {
+				if (scoringRuleForm.getStatus() == FormStatusEnum.DISCARD) {
+					table.setContainerDataSource(scoringRuleController.getScoringRuleBeanItemContainer());
+				}
+			}
+		});
+	}
+
+	public void setScoringRuleController(ScoringRuleController scoringRuleController) {
+		this.scoringRuleController = scoringRuleController;
+	}
 }

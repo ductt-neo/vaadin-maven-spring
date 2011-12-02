@@ -1,7 +1,7 @@
 package com.bpc.example.ui.enu;
 
 public enum FormStatusEnum {
-   ADD("add"), EDIT("edit");
+   ADD("add"), EDIT("edit"), DISCARD("discard");
 
    private String type;
 

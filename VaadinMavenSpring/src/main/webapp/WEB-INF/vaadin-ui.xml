@@ -25,6 +25,7 @@
     </bean>
     <bean id="scoringRuleTable" class="com.bpc.ui.ScoringRuleTable" scope="request" lazy-init="true">
       <property name="scoringRuleForm" ref="scoringRuleForm" />
+      <property name="scoringRuleController" ref="scoringRuleController" />
     </bean>
     <bean id="ruleCaseTable" class="com.bpc.ui.RuleCaseTable" scope="request" lazy-init="true">
         <property name="scoringRuleController" ref="scoringRuleController"/>
