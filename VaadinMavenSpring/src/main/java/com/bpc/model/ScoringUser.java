@@ -3,69 +3,67 @@ package com.bpc.model;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Bui_qt
- * Date: 11/23/11
- * Time: 1:47 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
-@Table(name="SCORING_USER")
-public class ScoringUser implements EntityBean{
+@Table(name = "SCORING_USER")
+public class ScoringUser implements EntityBean {
 
-    @Id
-    @Column(name="USERNAME")
-    private String userName;
-    @Column(name="PASSWORD")
-    private String password;
-    @Column(name="ENABLED")
-    private String enabled;
+	@Id
+	@Column(name = "USERNAME")
+	@SequenceGenerator(name = "SEQ_SCORING_USER", sequenceName = "SEQ_SCORING_USER")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SCORING_USER")
+	private String userName;
 
-    @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name="USERNAME",referencedColumnName = "USERNAME")
-    private List<ScoringUserAuthority> authorities;
+	@Column(name = "PASSWORD")
+	private String password;
 
-    public ScoringUser(){}
+	@Column(name = "ENABLED")
+	private String enabled;
 
-    public ScoringUser(String userName){
-        this.userName = userName;
-    }
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME")
+	private List<ScoringUserAuthority> authorities;
 
-    public String getUserName() {
-        return userName;
-    }
+	public ScoringUser() {
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public ScoringUser(String userName) {
+		this.userName = userName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getEnabled() {
-        return enabled;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setEnabled(String enabled) {
-        this.enabled = enabled;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public List<ScoringUserAuthority> getAuthorities() {
-        return authorities;
-    }
+	public String getEnabled() {
+		return enabled;
+	}
 
-    public void setAuthorities(List<ScoringUserAuthority> authorities) {
-        this.authorities = authorities;
-    }
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
 
-    @Transient
-    public Object getModelId() {
-        return getUserName();
-    }
+	public List<ScoringUserAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(List<ScoringUserAuthority> authorities) {
+		this.authorities = authorities;
+	}
+
+	@Transient
+	public Object getModelId() {
+		return getUserName();
+	}
 }
