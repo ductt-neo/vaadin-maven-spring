@@ -1,60 +1,45 @@
 package com.bpc.model;
 
 import javax.persistence.*;
-import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Bui_qt
- * Date: 11/23/11
- * Time: 1:47 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
-@Table(name="SCORING_AUTHORITY")
-public class ScoringUserAuthority implements EntityBean{
+@Table(name = "SCORING_AUTHORITY")
+public class ScoringUserAuthority implements EntityBean {
 
-    @Id
-    @Column(name="USERNAME")
-    private String userName;
-    @Column(name="AUTHORITY")
-    private String authority;
-    /*@JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME")
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    private List<ScoringUser> users;*/
+	@Id
+	@Column(name = "USERNAME")
+	@SequenceGenerator(name = "SEQ_SCORING_AUTHORITY", sequenceName = "SEQ_SCORING_AUTHORITY")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SCORING_AUTHORITY")
+	private String userName;
 
-    public ScoringUserAuthority(){}
+	@Column(name = "AUTHORITY")
+	private String authority;
 
-    public ScoringUserAuthority(String userName){
-        this.userName = userName;
-    }
+	public ScoringUserAuthority() {
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public ScoringUserAuthority(String userName) {
+		this.userName = userName;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getAuthority() {
-        return authority;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
+	public String getAuthority() {
+		return authority;
+	}
 
-    /*public List<ScoringUser> getUsers() {
-        return users;
-    }
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
-    public void setUsers(List<ScoringUser> users) {
-        this.users = users;
-    }*/
-
-    @Transient
-    public Object getModelId() {
-        return getUserName();
-    }
+	@Transient
+	public Object getModelId() {
+		return getUserName();
+	}
 }

@@ -5,29 +5,8 @@
 
 package com.bpc.model;
 
-
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Transient;
-
-/**
-*
-* @author do_th
-*/
 
 @Entity
 @Table(name = "SCORING_RULE_CASE")
@@ -38,36 +17,36 @@ import javax.persistence.Transient;
 		@NamedQuery(name = "ScoringRuleCase.findByScore", query = "SELECT s FROM ScoringRuleCase s WHERE s.score = :score") })
 public class ScoringRuleCase implements EntityBean {
 
-
+	@Id
+	@Basic(optional = false)
+	@Column(name = "RULE_CASE_ID")
+	@SequenceGenerator(name = "SEQ_SCORING_RULE_CASE", sequenceName = "SEQ_SCORING_RULE_CASE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SCORING_RULE_CASE")
 	private Long id;
 
+	@Column(name = "FACTOR_CHOICE")
 	private String factorChoice;
 
+	@Column(name = "SCORE")
 	private Double score;
 
+	@JoinColumn(name = "RULE_ID", referencedColumnName = "RULE_ID")
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private ScoringRule rule;
 
+	@Transient
 	private List<MappingRuleCase> mappingRuleCaseList;
 
 	public ScoringRuleCase() {
-		factorChoice ="";
+		factorChoice = "";
 		score = 0d;
-		
+
 	}
 
 	public ScoringRuleCase(Long id) {
 		this.id = id;
 	}
 
-	@TableGenerator(name = "RULE_CASE_TABLE_GENERATOR",
-			table = "SEQUENCE_GENERATOR_TABLE",
-			pkColumnName = "SEQUENCE_NAME",
-			valueColumnName = "SEQUENCE_VALUE",
-			pkColumnValue = "RULE_CASE_SEQUENCE")
-	@Id
-	@Basic(optional = false)
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "RULE_CASE_TABLE_GENERATOR")
-	@Column(name = "RULE_CASE_ID")
 	public Long getId() {
 		return id;
 	}
@@ -76,7 +55,6 @@ public class ScoringRuleCase implements EntityBean {
 		this.id = id;
 	}
 
-	@Column(name = "FACTOR_CHOICE")
 	public String getFactorChoice() {
 		return factorChoice;
 	}
@@ -85,7 +63,6 @@ public class ScoringRuleCase implements EntityBean {
 		this.factorChoice = factorChoice;
 	}
 
-	@Column(name = "SCORE")
 	public Double getScore() {
 		return score;
 	}
@@ -94,8 +71,6 @@ public class ScoringRuleCase implements EntityBean {
 		this.score = score;
 	}
 
-	@JoinColumn(name = "RULE_ID", referencedColumnName = "RULE_ID")
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	public ScoringRule getRule() {
 		return rule;
 	}
@@ -104,18 +79,17 @@ public class ScoringRuleCase implements EntityBean {
 		this.rule = rule;
 	}
 
-	@Transient
 	public List<MappingRuleCase> getMappingRuleCaseList() {
-        return mappingRuleCaseList;
-    }
+		return mappingRuleCaseList;
+	}
 
-    public void setMappingRuleCaseList(List<MappingRuleCase> mappingRuleCaseList) {
-        this.mappingRuleCaseList = mappingRuleCaseList;
-    }
+	public void setMappingRuleCaseList(List<MappingRuleCase> mappingRuleCaseList) {
+		this.mappingRuleCaseList = mappingRuleCaseList;
+	}
 
 	@Override
 	public String toString() {
-		return  factorChoice;
+		return factorChoice;
 	}
 
 	@Transient
