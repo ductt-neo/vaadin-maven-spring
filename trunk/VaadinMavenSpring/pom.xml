@@ -148,16 +148,24 @@
          <version>6.0.29</version>
       </dependency>
 
-      <!-- <dependency> -->
-      <!-- <groupId>jetty</groupId> -->
-      <!-- <artifactId>jetty-plus</artifactId> -->
-      <!-- <version>6.0.0</version> -->
-      <!-- </dependency> -->
-      <!-- <dependency> -->
-      <!-- <groupId>org.mortbay.jetty</groupId> -->
-      <!-- <artifactId>jetty-management</artifactId> -->
-      <!-- <version>6.1.25</version> -->
-      <!-- </dependency> -->
+
+        <!--<dependency>
+            <groupId>jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+            <version>6.0.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-management</artifactId>
+            <version>6.1.25</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>servlet-api-2.5</artifactId>
+            <version>6.1.2</version>
+        </dependency>
+
 
       <!-- <dependency> -->
       <!-- <groupId>org.mortbay.jetty</groupId> -->
@@ -231,17 +239,17 @@
       </dependency>
 
 
-        <!-- Postgress SQL driver-->
-
-        <!--<dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.0-801.jdbc4</version>
-        </dependency>-->
-
-      <!-- Postgress SQL driver -->
-      <!--<dependency> <groupId>postgresql</groupId> <artifactId>postgresql</artifactId> 
-         <version>9.0-801.jdbc4</version> </dependency> -->
+		<!-- Postgress SQL driver-->
+		<!-- <dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.0-801.jdbc4</version>
+		</dependency> -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>8.4-701.jdbc3</version>
+		</dependency>
 
 
       <!-- Log4j -->
@@ -261,12 +269,13 @@
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>6.1.15</version>
                 <configuration>
+                    <contextPath>/vaadin</contextPath>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>8080</port>
                         </connector>
                     </connectors>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanIntervalSeconds>2</scanIntervalSeconds>
                 </configuration>
             </plugin>
      </plugins>
