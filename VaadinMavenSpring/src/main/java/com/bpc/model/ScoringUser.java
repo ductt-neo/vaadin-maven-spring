@@ -8,9 +8,12 @@ import java.util.List;
 public class ScoringUser implements EntityBean {
 
 	@Id
-	@Column(name = "USERNAME")
+	@Column(name = "USER_ID")
 	@SequenceGenerator(name = "SEQ_SCORING_USER", sequenceName = "SEQ_SCORING_USER")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SCORING_USER")
+	private Long userId;
+	
+	@Column(name = "USERNAME")
 	private String userName;
 
 	@Column(name = "PASSWORD")
@@ -19,11 +22,19 @@ public class ScoringUser implements EntityBean {
 	@Column(name = "ENABLED")
 	private String enabled;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "USERNAME", referencedColumnName = "USERNAME")
-	private List<ScoringUserAuthority> authorities;
+	/*@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+	private List<ScoringUserRole> authorities;*/
 
 	public ScoringUser() {
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public ScoringUser(String userName) {
@@ -54,13 +65,13 @@ public class ScoringUser implements EntityBean {
 		this.enabled = enabled;
 	}
 
-	public List<ScoringUserAuthority> getAuthorities() {
+	/*public List<ScoringUserRole> getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(List<ScoringUserAuthority> authorities) {
+	public void setAuthorities(List<ScoringUserRole> authorities) {
 		this.authorities = authorities;
-	}
+	}*/
 
 	@Transient
 	public Object getModelId() {
