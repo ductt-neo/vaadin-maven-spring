@@ -36,7 +36,7 @@
     <bean id="scoringUserDao" class="com.bpc.dao.ScoringUserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    <bean id="scoringUserAuthorityDao" class="com.bpc.dao.ScoringUserAuthorityDaoImpl">
+    <bean id="scoringUserAuthorityDao" class="com.bpc.dao.ScoringUserRoleDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <bean id="factorDao" class="com.bpc.dao.FactorDaoImpl">
