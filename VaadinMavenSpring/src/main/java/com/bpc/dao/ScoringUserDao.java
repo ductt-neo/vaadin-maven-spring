@@ -14,6 +14,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface ScoringUserDao extends AbstractDAO<ScoringUser,String>{
-    public List<ScoringUser> getAllUsers();
-    public ScoringUser getUserByName(String userName);
+    public List<ScoringUser> getAllUsers() throws Exception;
+    public ScoringUser getUserByName(String userName) throws Exception;
+    public void insertUser(ScoringUser user) throws Exception;
+    public void updateUser(ScoringUser user) throws Exception;
+    public void deleteUser(ScoringUser user) throws Exception;
 }

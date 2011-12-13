@@ -1,11 +1,6 @@
 package com.bpc.dao;
 
-import com.bpc.model.ScoringRule;
-import com.bpc.model.ScoringRuleCase;
 import com.bpc.model.ScoringUser;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,16 +21,28 @@ public class ScoringUserDaoImpl
         return ScoringUser.class;
     }
 
-    public List<ScoringUser> getAllUsers() {
-        List<ScoringUser> users = getList();
+    public List<ScoringUser> getAllUsers()  throws Exception{
+        List<ScoringUser> users = getHibernateTemplate().find("select u from ScoringUser u");
         return users;
     }
 
-    public ScoringUser getUserByName(String userName) {
+    public ScoringUser getUserByName(String userName)  throws Exception{
         ScoringUser user = null;
         List<ScoringUser> users = getHibernateTemplate().find("from ScoringUser u where u.userName=?", userName);
         if(users!=null && users.size()>0)
               user = users.get(0);
         return user;
+    }
+
+    public void insertUser(ScoringUser user) throws Exception {
+        getHibernateTemplate().save(user);
+    }
+
+    public void updateUser(ScoringUser user) throws Exception {
+        getHibernateTemplate().update(user);
+    }
+
+    public void deleteUser(ScoringUser user) throws Exception {
+        getHibernateTemplate().delete(user);
     }
 }
