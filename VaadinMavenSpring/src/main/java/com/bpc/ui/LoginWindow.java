@@ -6,6 +6,7 @@ package com.bpc.ui;
 
 import com.bpc.services.CalculateServices;
 import com.bpc.utils.SpringContextHelper;
+import com.vaadin.data.Property;
 import com.vaadin.data.validator.DoubleValidator;
 import com.vaadin.event.Action;
 import com.vaadin.event.ListenerMethod;
@@ -17,6 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.awt.event.ActionListener;
 
 /**
  * @author do_th
@@ -48,6 +51,7 @@ public class LoginWindow extends Window {
 
         tbxPassword = new PasswordField();
         tbxPassword.setWidth("200");
+        tbxPassword.setImmediate(true);
 
         btnLogin = new Button("Login");
 
@@ -64,24 +68,16 @@ public class LoginWindow extends Window {
         addComponent(lblMessage);
         addComponent(btnLogin);
 
+        /*tbxPassword.addListener(new Key);*/
+        tbxPassword.addListener(new Property.ValueChangeListener(){
+            public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
+                process();
+            }
+        });
+
         btnLogin.addListener(new Button.ClickListener() {
-
             public void buttonClick(ClickEvent clickEvent) {
-                try {
-                    String username = (String)tbxUserName.getValue();
-                    String password =  (String)tbxPassword.getValue();
-
-                    //Authenticate username & password with Spring Security
-                    Authentication auth = authenticate(username, password);
-                    System.out.println("successful");
-
-                    closeWindow();
-
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    lblMessage.setValue(ex.getMessage());
-                }
+                    process();
             }
         });
 
@@ -98,6 +94,21 @@ public class LoginWindow extends Window {
         });
     }
 
+    private void process(){
+        try {
+        String username = (String)tbxUserName.getValue();
+                    String password =  (String)tbxPassword.getValue();
+
+                    //Authenticate username & password with Spring Security
+                    Authentication auth = authenticate(username, password);
+                    System.out.println("successful");
+
+                    closeWindow();
+            } catch (Exception ex) {
+                    ex.printStackTrace();
+                    lblMessage.setValue(ex.getMessage());
+                }
+    }
 
     /*public CalculateServices getCalculateServices() {
         return calculateServices;

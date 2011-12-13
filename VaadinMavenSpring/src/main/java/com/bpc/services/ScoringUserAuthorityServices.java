@@ -1,9 +1,8 @@
 package com.bpc.services;
 
-import com.bpc.model.MappingRule;
-import com.bpc.model.ScoringRule;
-import com.bpc.model.ScoringRuleCase;
-import com.bpc.model.ScoringUser;
+import com.bpc.model.*;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +14,25 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface ScoringUserAuthorityServices {
-    public ScoringUser getUserAuthority(String userName);
 
+    @Transactional(readOnly = true)
+    ScoringUser getUserByName(String userName) throws Exception;
+
+    @Transactional(readOnly = true)
+    List<ScoringUser> getAllUsers() throws Exception;
+
+    @Transactional(readOnly = true)
+    List<ScoringUserRole> getAllAuthorities()  throws Exception;
+
+    @Transactional(readOnly = true)
+    List<String> getDistinctAuthorities()  throws Exception;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void insertUser(ScoringUser user) throws Exception;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void updateUser(ScoringUser user) throws Exception;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    void deleteUser(ScoringUser user) throws Exception;
 }
